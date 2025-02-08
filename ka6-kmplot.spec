@@ -1,18 +1,18 @@
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
-%define		kdeappsver	24.12.1
+%define		kdeappsver	24.12.2
 %define		kframever	5.94.0
 %define		qtver		5.15.2
 %define		kaname		kmplot
 Summary:	kmplot
 Name:		ka6-%{kaname}
-Version:	24.12.1
+Version:	24.12.2
 Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Applications
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	f83c97898290f33372092a88bca0c960
+# Source0-md5:	660e1de80c8e6ce647bcae8eb9533e6a
 URL:		http://www.kde.org/
 BuildRequires:	Qt6Core-devel >= %{qtver}
 BuildRequires:	Qt6Gui-devel
