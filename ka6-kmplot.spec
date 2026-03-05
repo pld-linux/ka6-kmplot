@@ -1,18 +1,18 @@
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
-%define		kdeappsver	25.12.2
+%define		kdeappsver	25.12.3
 %define		kframever	5.94.0
 %define		qtver		5.15.2
 %define		kaname		kmplot
 Summary:	kmplot
 Name:		ka6-%{kaname}
-Version:	25.12.2
+Version:	25.12.3
 Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Applications
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	6b8dce1248cac516075e7960fcb7a127
+# Source0-md5:	5e4654d9e26aa5fbcea0abd5ccd22759
 URL:		http://www.kde.org/
 BuildRequires:	Qt6Core-devel >= %{qtver}
 BuildRequires:	Qt6Gui-devel
@@ -34,7 +34,7 @@ BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	shared-mime-info
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
-Requires(post,postun):	desktop-file-utils
+Requires:	%{name}-data = %{version}-%{release}
 %requires_eq_to Qt6Core Qt6Core-devel
 Obsoletes:	ka5-%{kaname} < %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -50,6 +50,20 @@ KmPlot jest programem rysującym wykresy funkcji, całek i pochodnych.
 Obsługuje różne układy współrzędnych, np. Kartezjański czy biegunowy.
 Wykresy są kolorowane i skalowalne, tak że jesteś w stanie powiększyć
 je do poziomu, którego potrzebujesz.
+
+%package data
+Summary:	Data files for %{kaname}
+Summary(pl.UTF-8):	Dane dla %{kaname}
+Group:		X11/Applications
+Requires(post,postun):	desktop-file-utils
+Obsoletes:	ka5-%{kaname}-data < 24.12.0
+BuildArch:	noarch
+
+%description data
+Data files for %{kaname}.
+
+%description data -l pl.UTF-8
+Dane dla %{kaname}.
 
 %prep
 %setup -q -n %{kaname}-%{version}
@@ -78,17 +92,20 @@ rm -rf $RPM_BUILD_ROOT
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
+%post data
 %update_desktop_database_post
 
-%postun
+%postun data
 %update_desktop_database_postun
 
 
-%files -f %{kaname}.lang
+%files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kmplot
 %{_libdir}/qt6/plugins/kf6/parts/kmplotpart.so
+
+%files data -f %{kaname}.lang
+%defattr(644,root,root,755)
 %{_desktopdir}/org.kde.kmplot.desktop
 %{_datadir}/config.kcfg/kmplot.kcfg
 %{_datadir}/dbus-1/interfaces/org.kde.kmplot.KmPlot.xml
@@ -114,3 +131,4 @@ rm -rf $RPM_BUILD_ROOT
 %lang(sl) %{_mandir}/sl/man1/kmplot.1*
 %lang(sv) %{_mandir}/sv/man1/kmplot.1*
 %lang(uk) %{_mandir}/uk/man1/kmplot.1*
+
